@@ -7,8 +7,8 @@ import AuthProviders from './AuthProviders'
 const Navbar = () => {
     const session = null
   return (
-    <nav className='flexBetween navbar'>
-        <div className='flex-1 flexStart gap-10'>
+    <nav className='flex justify-between items-center navbar py-5 px-8 border-b border-nav-border gap-4'>
+        <div className='flex-1 flex justify-start items-center gap-10'>
             <Link href="/">
                 <Image src="/logo.svg"
                 width={115}
@@ -25,7 +25,7 @@ const Navbar = () => {
             </ul>
            
         </div>
-        <div className='flexCenter gap-4'>
+        <div className='flex justify-center items-center gap-4'>
                 {session ? (
                     <>
                     UserPhoto
