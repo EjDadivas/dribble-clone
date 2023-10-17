@@ -3,9 +3,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import AuthProviders from './AuthProviders'
+import { getCurrentUser } from '@/lib/session'
+import { signOut } from 'next-auth/react'
+import ProfileMenu from './ProfileMenu'
 
-const Navbar = () => {
-    const session = null
+const Navbar = async () => {
+    const session = await getCurrentUser();
   return (
     <nav className='flex justify-between items-center navbar py-5 px-8 border-b border-nav-border gap-4'>
         <div className='flex-1 flex justify-start items-center gap-10'>
@@ -26,12 +29,19 @@ const Navbar = () => {
            
         </div>
         <div className='flex justify-center items-center gap-4'>
-                {session ? (
+            {/* only if user exists */}
+
+                {session?.user ? (
                     <>
-                    UserPhoto
+                    {/* This will be extracted so that Navbar will be SSR */}
+                    {/* <button className='text-sm' onClick={signOut}>Sign Out</button> */}
+                    
+                    <ProfileMenu session={session} />
+                    
                     <Link href="/create-project">
                     Share work
                     </Link>
+
                     </> 
                 ) : (<AuthProviders/>)
             }
