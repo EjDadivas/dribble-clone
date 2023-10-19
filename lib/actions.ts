@@ -1,3 +1,4 @@
+import { ProjectForm } from '@/common.types';
 import { createUserMutation, getUserQuery } from '@/graphql';
 import {GraphQLClient} from 'graphql-request'
 
@@ -41,4 +42,18 @@ export const createUser = (name: string, email: string, avatarUrl: string) => {
     }
     return makeGraphQLRequest(createUserMutation, variables)
 
+}
+
+export const uploadImage = async (imagePath:string) => {
+    try {
+        const response = await fetch(`${serverUrl}/api/upload`)
+    } catch (error) {
+        
+    }
+}
+// components/ProjectForm.tsx
+export const createNewProject = async (form: ProjectForm, createId: string, token: string)=>{
+
+    // upload image to  cloudinary
+    const imageurl = await uploadImage(form.image)
 }
