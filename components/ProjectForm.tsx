@@ -6,6 +6,8 @@ import FormField from './FormField';
 import { categoryFilters } from '@/constants';
 import CustomMenu from './CustomMenu';
 import Button from './Button';
+import { createNewProject, fetchToken } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 
 
 type Props = {
@@ -13,6 +15,7 @@ type Props = {
     session: SessionInterface
 }
 const ProjectForm = ({type, session}: Props) => {
+  const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [form, setForm] = useState({
     title:'',
@@ -23,17 +26,24 @@ const ProjectForm = ({type, session}: Props) => {
     category: ''
   })
 
-    const handleFormSubmit = (e:React.FormEvent) => {
+    const handleFormSubmit = async (e:React.FormEvent) => {
       e.preventDefault();
 
+      // getting the token
+      const {token} = await fetchToken();
+      
       setIsSubmitting(true);
       try {
         // inside lib/actions.tsx
         if(type ==='create'){
-
+          // creating the project
+          await createNewProject(form, session?.user?.id, token);
+          router.push('/')
         }
       } catch (error) {
-        
+        console.log("project form", error)
+      } finally {
+        setIsSubmitting(false)
       }
     }
     const handleChangeImage = (e:React.ChangeEvent<HTMLInputElement>) => { 
